@@ -51,7 +51,7 @@ bsponsors_default_settings = {
                     <a href="{{homepage}}" target="_blank">
                     {% endif %}
                     {% if logo %}
-                    <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                    <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
                     {% endif %}
                     {% if title %}
                     <p class="text-muted text-center">{{title}}</p>
