@@ -108,6 +108,7 @@ Parameters for the plugin can be set in `pelicanconf.py' with following paramete
 | BSPONSORS_PANEL_COLOR          | String    | panel-primary |  CSS class used to color the panel template in the default template. Possible values: panel-default, panel-primary, panel-success, panel-info, panel-warning, panel-danger |
 | BSPONSORS_HEADER               | String    | Content       | Header text  |
 | BSPONSORS_SORT              | Boolean    | False       | Sorting of the listing based on name |
+| BSPONSORS_DEBUG_PROCESSING | Boolean    | False  | Show extra information in when run with `DEBUG=1` |
 
 ### Content wise parameters
 
@@ -121,7 +122,7 @@ Parameters for the plugin can be set in `pelicanconf.py' with following paramete
 | BSPONSORS_HEADER         | Sponsors | Header text  |
 | BSPONSORS_FIELDS         |          | comma separated list of field to be shown |
 | BSPONSORS_SORT           | True     | Sorting of the listing based on name |
-
+  
 Example:
 
     Title: Test page
