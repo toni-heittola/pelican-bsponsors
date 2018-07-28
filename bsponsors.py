@@ -241,7 +241,7 @@ def generate_listing(settings):
 
         html = "\n"
         main_highlight = False
-        for sponsor_key, sponsor in sponsors.iteritems():
+        for sponsor_key, sponsor in sponsors.items():
             html += generate_listing_item(sponsor=sponsor, settings=settings) + "\n"
 
         html += "\n"
