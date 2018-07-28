@@ -94,7 +94,8 @@ bsponsors_default_settings = {
     'sponsor-name': None,
     'sort': False,
     'fields': '',
-    'site-url': ''
+    'site-url': '',
+    'debug_processing': False
 }
 
 bsponsors_settings = copy.deepcopy(bsponsors_default_settings)
@@ -324,6 +325,13 @@ def bsponsors(content):
     bsponsor_item_divs = soup.find_all('div', class_='bsponsor-item')
 
     if bsponsors_divs:
+        if bsponsors_settings['debug_processing']:
+            logger.debug(msg='[{plugin_name}] title:[{title}] divs:[{div_count}]'.format(
+                plugin_name='bsponsor',
+                title=content.title,
+                div_count=len(bsponsors_divs)
+            ))
+
         bsponsors_settings['show'] = True
         for bsponsor_div in bsponsors_divs:
             # We have div in the page
@@ -351,6 +359,13 @@ def bsponsors(content):
 
     # bsponsor card divs
     if bsponsor_item_divs:
+        if bsponsors_settings['debug_processing']:
+            logger.debug(msg='[{plugin_name}] title:[{title}] divs:[{div_count}]'.format(
+                plugin_name='bsponsor-item',
+                title=content.title,
+                div_count=len(bsponsor_item_divs)
+            ))
+
         bsponsors_settings['show'] = True
         for bsponsor_card_div in bsponsor_item_divs:
             # We have div in the page
@@ -441,6 +456,9 @@ def init_default_config(pelican):
 
     if 'BSPONSORS_SORT' in pelican.settings:
         bsponsors_default_settings['sort'] = pelican.settings['BSPONSORS_SORT']
+
+    if 'BSPONSORS_DEBUG_PROCESSING' in pelican.settings:
+        bsponsors_default_settings['debug_processing'] = pelican.settings['BSPONSORS_DEBUG_PROCESSING']
 
     bsponsors_settings = copy.deepcopy(bsponsors_default_settings)
 
