@@ -341,7 +341,7 @@ def bsponsors(content):
         for bsponsor_div in bsponsors_divs:
             # We have div in the page
             settings = copy.deepcopy(bsponsors_settings)
-            settings['data-source'] = get_attribute(bsponsor_div.attrs, 'yaml', bsponsors_settings['data-source'])
+            settings['data-source'] = get_attribute(bsponsor_div.attrs, 'source', bsponsors_settings['data-source'])
             settings['set'] = get_attribute(bsponsor_div.attrs, 'set', bsponsors_settings['set'])
             settings['template'] = get_attribute(bsponsor_div.attrs, 'template', bsponsors_settings['template'])
             settings['item-template'] = get_attribute(bsponsor_div.attrs, 'item-template', bsponsors_settings['item-template'])
@@ -375,7 +375,7 @@ def bsponsors(content):
         for bsponsor_card_div in bsponsor_item_divs:
             # We have div in the page
             settings = copy.deepcopy(bsponsors_settings)
-            settings['data-source'] = get_attribute(bsponsor_card_div.attrs, 'yaml', bsponsors_settings['data-source'])
+            settings['data-source'] = get_attribute(bsponsor_card_div.attrs, 'source', bsponsors_settings['data-source'])
             settings['set'] = get_attribute(bsponsor_card_div.attrs, 'set', bsponsors_settings['set'])
             settings['template'] = get_attribute(bsponsor_card_div.attrs, 'template', bsponsors_settings['template'])
             settings['item-template'] = get_attribute(bsponsor_card_div.attrs, 'item-template', bsponsors_settings['item-template'])

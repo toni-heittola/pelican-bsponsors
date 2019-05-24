@@ -169,4 +169,4 @@ Example of sponsor cards
     Slug: test-page
     Author: Test Person
     bsponsors_source: content/data/sponsors.yaml
-    <div class="bsponsors-card" data-sponsor-name="CompanyName"></div>
+    <div class="bsponsors-item" data-sponsor-name="CompanyName"></div>
