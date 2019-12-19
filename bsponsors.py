@@ -14,6 +14,7 @@ from jinja2 import Template
 from pelican import signals, contents
 import yaml
 import collections
+from io import open
 
 logger = logging.getLogger(__name__)
 __version__ = '0.1.0'
@@ -112,10 +113,10 @@ def load_sponsors_registry(source):
         try:
             from distutils.version import LooseVersion
             if LooseVersion(str(yaml.__version__)) >= "5.1":
-                with open(source, 'r') as field:
+                with open(source, 'r', encoding='utf-8') as field:
                     sponsors_registry = yaml.load(field, Loader=yaml.FullLoader)
             else:
-                with open(source, 'r') as field:
+                with open(source, 'r', encoding='utf-8') as field:
                     sponsors_registry = yaml.load(field)
 
             if 'data' in sponsors_registry:
@@ -203,10 +204,25 @@ def generate_sponsor_card(settings):
     sponsor_registry = load_sponsors_registry(source=settings['data-source'])
 
     if sponsor_registry:
+
         if settings['set'] and 'sets' in sponsor_registry and settings['set'] in sponsor_registry['sets']:
-            sponsor_data = sponsor_registry['sets'][settings['set']][settings['sponsor-name'].lower()]
+            if settings['sponsor-name'].lower() in sponsor_registry['sets'][settings['set']]:
+                sponsor_data = sponsor_registry['sets'][settings['set']][settings['sponsor-name'].lower()]
+            else:
+                logger.warn(
+                    '`pelican-bsponsors` sponsor name [{name}] was not found'.format(
+                        name=settings['sponsor-name']
+                    ))
+                return ''
         else:
-            sponsor_data = sponsor_registry['sponsors'][settings['sponsor-name'].lower()]
+            if settings['sponsor-name'].lower() in sponsor_registry['sponsors']:
+                sponsor_data = sponsor_registry['sponsors'][settings['sponsor-name'].lower()]
+            else:
+                logger.warn(
+                    '`pelican-bsponsors` sponsor name [{name}] was not found'.format(
+                        name=settings['sponsor-name']
+                    ))
+                return ''
 
         valid_fields = [u'name', u'homepage', u'logo', u'title']  # default fields
         valid_fields += settings['fields']  # user defined fields
