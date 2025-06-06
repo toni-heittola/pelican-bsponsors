@@ -20,74 +20,134 @@ logger = logging.getLogger(__name__)
 __version__ = '0.1.0'
 
 bsponsors_default_settings = {
+    'template-mode': 'bs3',
     'panel-color': 'panel-default',
     'header': 'Sponsors',
     'mode': 'panel',
     'template': {
-        'panel': """
-            <div class="panel {{ panel_color }}">
-              {% if header %}
-              <div class="panel-heading">
-                <h3 class="panel-title">{{header}}</h3>
-              </div>
-              {% endif %}
-              <table class="table bsponsors-container">
-              {{list}}
-              </table>
-            </div>
-        """,
-        'list': """
-            {% if header %}<h3 class="section-heading text-center">{{header}}</h3>{% endif %}
-            <div class="list-group bsponsors-container">
-                <div class="row">
-                {{list}}
+        'bs3': {
+            'panel': """
+                <div class="panel {{ panel_color }}">
+                  {% if header %}
+                  <div class="panel-heading">
+                    <h3 class="panel-title">{{header}}</h3>
+                  </div>
+                  {% endif %}
+                  <table class="table bsponsors-container">
+                  {{list}}
+                  </table>
                 </div>
-            </div>
-        """},
-    'item-template': {
-        'panel': """
-            <tr>
-                <td class="{{item_css}}">
-                    {% if homepage %}
-                    <a href="{{homepage}}" target="_blank">
-                    {% endif %}
-                    {% if logo %}
-                    <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
-                    {% endif %}
-                    {% if title %}
-                    <p class="text-muted text-center">{{title}}</p>
-                    {% endif %}
-                    {% if homepage %}
-                    </a>
-                    {% endif %}
-                </td>
-            </tr>
-        """,
-        'list': """
-            <div class="col-md-6 col-xs-12">
-                <div class="row list-group-item-" style="padding-bottom:0.5em;">
-                    {% if logo %}
-                    <div class="col-md-2 col-xs-2">
-                        <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+            """,
+            'list': """
+                {% if header %}<h3 class="section-heading text-center">{{header}}</h3>{% endif %}
+                <div class="list-group bsponsors-container">
+                    <div class="row">
+                    {{list}}
                     </div>
-                    {% endif %}
                 </div>
-            </div>
-        """},
-    'sponsor-item-template': """
-        {% if homepage %}
-        <a href="{{homepage}}" target="_blank">
-        {% endif %}
-        {% if logo %}
-        <img class="img img-responsive" style="margin-left: auto;margin-right: auto;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
-        {% endif %}
-        {% if title %}
-        <p class="text-muted text-center">{{title}}</p>
-        {% endif %}
-        {% if homepage %}
-        </a>
-        {% endif %}
-    """,
+            """
+        },
+        'bs5': {
+            'panel': """
+                <div class="card hidden-print">
+                  {% if header %}
+                    <h5 class="card-header {{ panel_color }} ">
+                        {{header}}
+                    </h5>                                    
+                  {% endif %}                      
+                  <table class="table bsponsors-container">
+                  {{list}}
+                  </table>
+                </div>
+            """,
+            'list': """
+                {% if header %}<h3 class="section-heading text-center">{{header}}</h3>{% endif %}
+                <div class="list-group bsponsors-container mb-3">
+                    <div class="row">
+                    {{list}}
+                    </div>
+                </div>
+            """
+        }
+    },
+    'item-template': {
+        'bs3':{
+            'panel': """
+                <tr>
+                    <td class="{{item_css}}">
+                        {% if homepage %}
+                        <a href="{{homepage}}" target="_blank">
+                        {% endif %}
+                        {% if logo %}
+                        <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                        {% endif %}
+                        {% if title %}
+                        <p class="text-muted text-center">{{title}}</p>
+                        {% endif %}
+                        {% if homepage %}
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            """,
+            'list': """
+                <div class="col-md-6 col-xs-12">
+                    <div class="row list-group-item-" style="padding-bottom:0.5em;">
+                        {% if logo %}
+                        <div class="col-md-2 col-xs-2">
+                            <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            """
+        },
+        'bs5':{
+            'panel': """
+                <tr>
+                    <td class="{{item_css}}">
+                        {% if homepage %}
+                        <a href="{{homepage}}" target="_blank">
+                        {% endif %}
+                        {% if logo %}
+                        <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                        {% endif %}
+                        {% if title %}
+                        <p class="text-muted text-center">{{title}}</p>
+                        {% endif %}
+                        {% if homepage %}
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            """,
+            'list': """
+                <div class="col-md-6 col-xs-12">
+                    <div class="row list-group-item-" style="padding-bottom:0.5em;">
+                        {% if logo %}
+                        <div class="col-md-2 col-xs-2">
+                            <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            """
+        },
+    },
+    'sponsor-item-template': {
+        'bs3': """
+            {% if homepage %}<a href="{{homepage}}" target="_blank">{% endif %}
+            {% if logo %}<img class="img img-responsive" style="margin-left: auto;margin-right: auto;" src="{{site_url}}/{{ logo }}" alt="{{name}}">{% endif %}
+            {% if title %}<p class="text-muted text-center">{{title}}</p>{% endif %}
+            {% if homepage %}</a>{% endif %}
+        """,
+        'bs5': """
+            {% if homepage %}<a href="{{homepage}}" target="_blank">{% endif %}
+            {% if logo %}<img class="img img-responsive" style="margin-left: auto;margin-right: auto;" src="{{site_url}}/{{ logo }}" alt="{{name}}">{% endif %}
+            {% if title %}<p class="text-muted text-center">{{title}}</p>{% endif %}
+            {% if homepage %}</a>{% endif %}
+        """,
+    },
     'data-source': None,
     'set': None,
     'show': False,
@@ -234,7 +294,7 @@ def generate_sponsor_card(settings):
             else:
                 filtered_fields[field] = None
 
-        template = Template(settings['sponsor-item-template'].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
+        template = Template(settings['sponsor-item-template'][settings['template-mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
 
         filtered_fields['site_url'] = settings['site-url']
         html = BeautifulSoup(template.render(**filtered_fields), "html.parser")
@@ -268,7 +328,7 @@ def generate_listing(settings):
 
         html += "\n"
 
-        template = Template(settings['template'][settings['mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
+        template = Template(settings['template'][settings['template-mode']][settings['mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
 
         return BeautifulSoup(template.render(list=html,
                                              header=settings['header'],
@@ -312,12 +372,37 @@ def generate_listing_item(sponsor, settings, main_highlight=False):
         else:
             filtered_fields[field] = None
 
-    template = Template(settings['item-template'][settings['mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
+    template = Template(settings['item-template'][settings['template-mode']][settings['mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
     filtered_fields['site_url'] = settings['site-url']
     filtered_fields['item_css'] = item_css
 
     html = BeautifulSoup(template.render(**filtered_fields), "html.parser")
     return html.decode()
+
+
+def process_panel_color(panel_color, mode='bs3'):
+    if mode == 'bs3':
+        if 'bg-' in panel_color:
+            panel_color = panel_color.replace('bg-', 'panel-')
+
+    elif mode == 'bs5':
+        if 'panel-' in panel_color:
+            panel_color = panel_color.replace('panel-', 'bg-')
+
+        if panel_color in ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark',
+                                       'body', 'white', 'transparent']:
+            panel_color = 'bg-' + panel_color
+
+        if panel_color == 'bg-default':
+            panel_color = 'bg-light'
+
+        if panel_color not in ['bg-light', 'bg-secondary', 'bg-primary', 'bg-success', 'bg-danger', 'bg-transparent']:
+            panel_color += ' text-white'
+        else:
+            panel_color += ' text-muted'
+
+
+    return panel_color
 
 
 def bsponsors(content):
@@ -364,6 +449,12 @@ def bsponsors(content):
             settings['mode'] = get_attribute(bsponsor_div.attrs, 'mode', bsponsors_settings['mode'])
             settings['header'] = get_attribute(bsponsor_div.attrs, 'header', bsponsors_settings['header'])
             settings['panel-color'] = get_attribute(bsponsor_div.attrs, 'panel-color', bsponsors_settings['panel-color'])
+            if settings['template-mode'] == 'bs5':
+                settings['panel-color'] = process_panel_color(
+                    panel_color=settings['panel-color'],
+                    mode=settings['template-mode']
+                )
+
             settings['fields'] = get_attribute(bsponsor_div.attrs, 'fields', bsponsors_settings['fields'])
             settings['fields'] = [x.strip() for x in settings['fields'].split(',')]
             if not isinstance(settings['fields'], list):
@@ -398,6 +489,12 @@ def bsponsors(content):
             settings['mode'] = get_attribute(bsponsor_card_div.attrs, 'mode', bsponsors_settings['mode'])
             settings['header'] = get_attribute(bsponsor_card_div.attrs, 'header', bsponsors_settings['header'])
             settings['panel-color'] = get_attribute(bsponsor_card_div.attrs, 'panel-color', bsponsors_settings['panel-color'])
+            if settings['template-mode'] == 'bs5':
+                settings['panel-color'] = process_panel_color(
+                    panel_color=settings['panel-color'],
+                    mode=settings['template-mode']
+                )
+
             settings['sponsor-name'] = get_attribute(bsponsor_card_div.attrs, 'sponsor-name', bsponsors_settings['sponsor-name'])
             settings['fields'] = get_attribute(bsponsor_card_div.attrs, 'fields', bsponsors_settings['fields'])
             if not isinstance(settings['fields'], list):
@@ -459,6 +556,9 @@ def init_default_config(pelican):
 
     if 'BSPONSORS_SOURCE' in pelican.settings:
         bsponsors_default_settings['data-source'] = pelican.settings['BSPONSORS_SOURCE']
+
+    if 'BSPONSORS_TEMPLATE_MODE' in pelican.settings:
+        bsponsors_default_settings['template-mode'] = pelican.settings['BSPONSORS_TEMPLATE_MODE']
 
     if 'BSPONSORS_TEMPLATE' in pelican.settings:
         bsponsors_default_settings['template'].update(pelican.settings['BSPONSORS_TEMPLATE'])

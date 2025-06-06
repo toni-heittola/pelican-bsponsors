@@ -101,6 +101,7 @@ Parameters for the plugin can be set in `pelicanconf.py' with following paramete
 
 | Parameter                 | Type      | Default       | Description  |
 |---------------------------|-----------|---------------|--------------|
+| BSPONSORS_TEMPLATE_MODE   | String    | bs3           | Template mode, possible values bs3, bs5 |
 | BSPONSORS_SOURCE          | String    |  | YAML-file to contain sponsor registry, see example format above. |
 | BSPONSORS_TEMPLATE        | Dict of Jinja2 templates |  | Two templates can be set for panel and list  |
 | BSPONSORS_ITEM_TEMPLATE   | Dict of Jinja2 templates |  | Two templates can be set for panel and list  |
