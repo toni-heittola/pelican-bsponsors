@@ -33,7 +33,7 @@ bsponsors_default_settings = {
                     <h3 class="panel-title">{{header}}</h3>
                   </div>
                   {% endif %}
-                  <table class="table bsponsors-container">
+                  <table class="table bsponsors-container>
                   {{list}}
                   </table>
                 </div>
@@ -49,13 +49,13 @@ bsponsors_default_settings = {
         },
         'bs5': {
             'panel': """
-                <div class="card hidden-print">
+                <div class="card hidden-print mb-4">
                   {% if header %}
                     <h5 class="card-header {{ panel_color }} ">
                         {{header}}
                     </h5>                                    
                   {% endif %}                      
-                  <table class="table bsponsors-container">
+                  <table class="table bsponsors-container mb-0">
                   {{list}}
                   </table>
                 </div>
@@ -106,18 +106,12 @@ bsponsors_default_settings = {
             'panel': """
                 <tr>
                     <td class="{{item_css}}">
-                        {% if homepage %}
-                        <a href="{{homepage}}" target="_blank">
-                        {% endif %}
+                        {% if homepage %}<a href="{{homepage}}" target="_blank" class="text link-underline link-underline-opacity-0">{% endif %}
                         {% if logo %}
-                        <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                        <img class="img-fluid mx-auto d-block" style="max-height:160px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
                         {% endif %}
-                        {% if title %}
-                        <p class="text-muted text-center">{{title}}</p>
-                        {% endif %}
-                        {% if homepage %}
-                        </a>
-                        {% endif %}
+                        {% if title %}<p class="text-muted text-center">{{title}}</p>{% endif %}
+                        {% if homepage %}</a>{% endif %}
                     </td>
                 </tr>
             """,
@@ -126,7 +120,7 @@ bsponsors_default_settings = {
                     <div class="row list-group-item-" style="padding-bottom:0.5em;">
                         {% if logo %}
                         <div class="col-md-2 col-xs-2">
-                            <img class="img img-responsive" style="margin-left: auto;margin-right: auto;max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
+                            <img class="img-fluid mx-auto d-block" style="max-height:80px;" src="{{site_url}}/{{ logo }}" alt="{{name}}">
                         </div>
                         {% endif %}
                     </div>
@@ -142,8 +136,8 @@ bsponsors_default_settings = {
             {% if homepage %}</a>{% endif %}
         """,
         'bs5': """
-            {% if homepage %}<a href="{{homepage}}" target="_blank">{% endif %}
-            {% if logo %}<img class="img img-responsive" style="margin-left: auto;margin-right: auto;" src="{{site_url}}/{{ logo }}" alt="{{name}}">{% endif %}
+            {% if homepage %}<a href="{{homepage}}" target="_blank" class="text link-underline link-underline-opacity-0">{% endif %}
+            {% if logo %}<img class="img-fluid mx-auto d-block" src="{{site_url}}/{{ logo }}" alt="{{name}}">{% endif %}
             {% if title %}<p class="text-muted text-center">{{title}}</p>{% endif %}
             {% if homepage %}</a>{% endif %}
         """,
@@ -329,6 +323,11 @@ def generate_listing(settings):
         html += "\n"
 
         template = Template(settings['template'][settings['template-mode']][settings['mode']].strip('\t\r\n').replace('&gt;', '>').replace('&lt;', '<'))
+        if settings['template-mode'] == 'bs5':
+            settings['panel-color'] = process_panel_color(
+                panel_color=settings['panel-color'],
+                mode=settings['template-mode']
+            )
 
         return BeautifulSoup(template.render(list=html,
                                              header=settings['header'],
@@ -381,28 +380,39 @@ def generate_listing_item(sponsor, settings, main_highlight=False):
 
 
 def process_panel_color(panel_color, mode='bs3'):
+    text_color = ''
+
     if mode == 'bs3':
         if 'bg-' in panel_color:
             panel_color = panel_color.replace('bg-', 'panel-')
 
     elif mode == 'bs5':
-        if 'panel-' in panel_color:
+        # Convert bs3 colors
+        if panel_color.startswith('panel-'):
             panel_color = panel_color.replace('panel-', 'bg-')
+            if 'default' not in panel_color and '-subtle' not in panel_color:
+                panel_color += '-subtle'
 
-        if panel_color in ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark',
-                                       'body', 'white', 'transparent']:
-            panel_color = 'bg-' + panel_color
+        elif panel_color in ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'body', 'white', 'transparent']:
+            panel_color = 'bg-' + panel_color + '-subtle'
 
         if panel_color == 'bg-default':
-            panel_color = 'bg-light'
+            panel_color = 'bg-secondary-subtle'
 
-        if panel_color not in ['bg-light', 'bg-secondary', 'bg-primary', 'bg-danger', 'bg-transparent']:
-            panel_color += ' text-white'
-        else:
-            panel_color += ' text-muted'
+        # Determine the text color
+        # If subtle colors are used, use matching emphasis text color
+        if '-subtle' in panel_color and 'text-' not in panel_color:
+            text_color = ' ' + panel_color.replace('bg-', 'text-').replace('-subtle', '-emphasis')
 
-
-    return panel_color
+        # otherwise handcraft colors
+        elif '-subtle' not in panel_color:
+            if panel_color in ['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger', 'bg-dark', 'bg-black']:
+                text_color = ' text-white'
+            elif panel_color in ['bg-warning', 'bg-info', 'bg-light']:
+                text_color = ' text-dark'
+            elif not text_color:
+                text_color = ' text-muted'
+    return panel_color + text_color
 
 
 def bsponsors(content):
